@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    li {
+      cursor: pointer;
+    }
+    .red {
+      color: red;
+    }
+  </style>
+  <body>
+    <ul id="container"></ul>
+    <script>
+      const container = document.getElementById("container");
+      let state = ["Edit", "src", "App.js", "and", "save", "to", "reload."];
+      const handleFn = () =>
+        document.querySelectorAll("li").forEach((element, index) => {
+          element.addEventListener("click", () => {
+            document.querySelectorAll("li").forEach((e) => {
+              e.classList.remove("red");
+            });
+            element.classList.add("red");
+            console.log(index, state.length);
+            const prev = index;
+
+            const next = index < state.length - 1 ? index + 1 : 0;
+
+            console.log(state);
+            const preState = state[prev];
+            const nextState = state[next];
+            state[prev] = nextState;
+            state[next] = preState;
+            //   container.replaceChild(
+            //     (document.createElement("li").textContent = element),
+            //     document.querySelectorAll("li")[index]
+            //   );
+
+            document.querySelectorAll("li").forEach((element) => {
+              container.removeChild(element);
+            });
+            createElement(state, next);
+            //   console.log(document.createElement("li"));
+          });
+        });
+      function createElement(state, index) {
+        console.log("creating");
+        state.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          container.appendChild(li);
+
+          if (state[index] === item) {
+            console.log(index, state[index], item);
+            document.querySelectorAll("li")[index].classList.add("red");
+          }
+        });
+        handleFn();
+      }
+      createElement(state);
+    </script>
+  </body>
+</html>
